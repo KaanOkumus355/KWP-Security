@@ -53,13 +53,13 @@ Given a raw text message
 
 $$\mathbf{s}= (c_1,c_2,\dots,c_L)\in\mathcal{V}^L$$  
 
-(where \(\mathcal{V}\) is the character alphabet), predict a binary label  
+(where $\mathcal{V}$ is the character alphabet), predict a binary label  
 
 $$y\in\{0,1\},\qquad
 y=1\;\Longleftrightarrow\;\text{“phishing”},\;
 y=0\;\Longleftrightarrow\;\text{“legitimate”}.$$
 
-The model is **linear** in a high‑dimensional sparse feature space \(\mathbf{x}\in\mathbb{R}^d\).
+The model is **linear** in a high‑dimensional sparse feature space $\mathbf{x}\in\mathbb{R}^d$.
 
 ---
 
@@ -92,18 +92,18 @@ $$
 
 where  
 
-* \(\mathbf{x}^{\text{word}}\) – TF‑IDF on unigrams + bigrams,  
-* \(\mathbf{x}^{\text{char}}\) – TF‑IDF on character 3‑5‑grams,  
-* \(x^{\text{url}}\in\{0,1\}\) – presence of any URL,  
-* \(\mathbf{x}^{\text{kw}}\) – counts of a curated list of ~120 phishing‑related keywords,  
-* \(x^{\text{wl}}\in\{0,1\}\) – domain belongs to a trusted **whitelist**,  
-* \(x^{\text{fp}}\in\{0,1\}\) – contains a first‑person pronoun (`I`, `my`, `we`, …).  
+* $\mathbf{x}^{\text{word}}$ – TF‑IDF on unigrams + bigrams,  
+* $\mathbf{x}^{\text{char}}$ – TF‑IDF on character 3‑5‑grams,  
+* $x^{\text{url}}\in\{0,1\}$ – presence of any URL,  
+* $\mathbf{x}^{\text{kw}}$ – counts of a curated list of ~120 phishing‑related keywords,  
+* $x^{\text{wl}}\in\{0,1\}$ – domain belongs to a trusted **whitelist**,  
+* $x^{\text{fp}}\in\{0,1\}$ – contains a first‑person pronoun (`I`, `my`, `we`, …).  
 
-All components are concatenated column‑wise, producing a sparse matrix \(X\in\mathbb{R}^{n\times d}\) for the whole dataset.
+All components are concatenated column‑wise, producing a sparse matrix $X\in\mathbb{R}^{n\times d}$ for the whole dataset.
 
 ### 2️⃣ Logistic regression  
 
-We learn a weight vector \(\mathbf{w}\) and bias \(b\) by minimising the regularised log‑loss  
+We learn a weight vector $\mathbf{w}$ and bias $b$ by minimising the regularised log‑loss  
 
 $$
 \min_{\mathbf{w},b}\;
@@ -123,7 +123,7 @@ $$
 `scikit‑learn`’s `LogisticRegression` (solver **lbfgs**) solves exactly this problem.  
 We set `class_weight='balanced'` so that the loss is automatically re‑weighted to counter any class imbalance.
 
-The **output probability** for a new message \(\mathbf{s}\) is  
+The **output probability** for a new message $\mathbf{s}$ is  
 
 $$
 \hat{p}= \sigma\bigl(\mathbf{w}^{\!\top}\mathbf{x}(\mathbf{s}) + b\bigr).
@@ -135,7 +135,7 @@ $$
 \hat{y}= \mathbf{1}\bigl(\hat{p}\ge\tau\bigr),
 $$  
 
-with the default threshold \(\tau=0.5\) (you can tune it).
+with the default threshold $\tau=0.5$ (you can tune it).
 
 ---
 
@@ -148,7 +148,7 @@ Below each feature is described **conceptually** and by the concrete **Python im
 | Concept | Code |
 |---------|------|
 | Unigrams + bigrams on the **cleaned** text. | ```python<br>TfidfVectorizer(ngram_range=(1,2), max_features=None, min_df=1,<br>                 sublinear_tf=True, stop_words=None)``` |
-| TF‑IDF term weight: \(\displaystyle \text{tfidf}(t,d)=\text{tf}(t,d)\cdot\log\frac{N}{\text{df}(t)}\) (sub‑linear). | Handled internally by `scikit‑learn`. |
+| TF‑IDF term weight: $\displaystyle \text{tfidf}(t,d)=\text{tf}(t,d)\cdot\log\frac{N}{\text{df}(t)}$ (sub‑linear). | Handled internally by `scikit‑learn`. |
 
 ### 2️⃣ Character‑level TF‑IDF <a name="2-character‑level-tfidf"></a>
 
